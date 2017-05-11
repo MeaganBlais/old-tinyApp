@@ -3,11 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 
 var PORT = process.env.PORT || 8080; // default port 8080
+var urlDatabase = {
+  "b2xVn2": "http://www.lighthouselabs.ca",
+  "9sm5xK": "http://www.google.com"
+};
 
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 function generateRandomString() {
   let result = '';
@@ -18,10 +21,11 @@ function generateRandomString() {
   return result;
 }
 
- //DELETE TESTING FEATURE
-app.get('/test', (req, res) => {
-  res.send(generateRandomString())
-})
+//  //DELETE TESTING FEATURE
+// app.get('/test', (req, res) => {
+//   res.send(generateRandomString())
+// })
+//  //DELETE TESTING FEATURE
 
 app.get('/', (req, res) => {
   res.send('Hello!');
@@ -37,6 +41,7 @@ app.get('/urls.json', (req, res) => {
 
 app.get('/urls', (req, res) => {
   let templateVars = {urls: urlDatabase};
+
   res.render('urls_index', templateVars);
 });
 
@@ -44,9 +49,14 @@ app.get('/urls/new', (req, res) => {
   res.render('urls_new');
 });
 
+app.get("/u/:shortURL", (req, res) => {
+  let longURL = urlDatabase[req.params.shortURL];  //REVEIW THIS FOR SOLID UNDERSTANDING
+  res.redirect(longURL);
+});
+
 app.get('/urls/:id', (req, res) => {
   let templateVars = { shortURL: req.params.id };
-  res.render('urls_show.ejc', templateVars);
+  res.render('urls_show', templateVars);
 });
 
 app.post('/urls', (req, res) => {
@@ -54,6 +64,12 @@ app.post('/urls', (req, res) => {
   res.send('Ok'); //placeholder? - we will replace this
 });
 
+app.post('/urls/:id/delete', (req, res) => {
+  delete urlDatabase[req.params.id];
+  // delete urls['id']; --- this is incorrect. there is no 'id', it is simply a container waiting for input
+  res.redirect('/urls');
+})
+
 app.listen(PORT, () => {
-  console.log('Example app listening on port ${PORT}!');
+  console.log(`Example app listening on port ${PORT}!`);
 });
