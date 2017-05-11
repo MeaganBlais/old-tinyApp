@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');  
+// review bodyParser
 
 var PORT = process.env.PORT || 8080; // default port 8080
 var urlDatabase = {
@@ -9,6 +10,8 @@ var urlDatabase = {
 };
 
 app.set('view engine', 'ejs');
+
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -21,11 +24,11 @@ function generateRandomString() {
   return result;
 }
 
-//  //DELETE TESTING FEATURE
+//  DELETE TESTING FEATURE
 // app.get('/test', (req, res) => {
 //   res.send(generateRandomString())
 // })
-//  //DELETE TESTING FEATURE
+//  DELETE TESTING FEATURE
 
 app.get('/', (req, res) => {
   res.send('Hello!');
@@ -64,9 +67,14 @@ app.post('/urls', (req, res) => {
   res.send('Ok'); //placeholder? - we will replace this
 });
 
+app.post('/urls/:id', (req, res) => {
+  console.log('you did it!');
+  res.redirect('/urls');
+});
+
 app.post('/urls/:id/delete', (req, res) => {
   delete urlDatabase[req.params.id];
-  // delete urls['id']; --- this is incorrect. there is no 'id', it is simply a container waiting for input
+  // delete urls['id']; --- this is incorrect code. there is no 'id', it is simply a container waiting for input
   res.redirect('/urls');
 })
 
