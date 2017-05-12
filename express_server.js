@@ -52,7 +52,11 @@ app.get('/urls', (req, res) => {
 
 app.get('/urls/new', (req, res) => {
   console.log(54)
-  res.render('urls_new');
+    let templateVars = {                            //added as per mentor guidance
+    username: req.cookies["username"],
+    urls: urlDatabase
+    };
+  res.render('urls_new', templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -73,6 +77,13 @@ app.post('/urls', (req, res) => {
 app.post('/login', (req, res) => {
   console.log(74, req.body); //test
   res.cookie('username', req.body.username); // set cookie name and value
+  res.redirect('/urls');
+}); 
+
+app.post('/logout', (req, res) => {
+  console.log(84); //test
+  res.clearCookie('username')   // delete cookie
+    // res.send ('Thank you!') // removed since deleting cookie will properly reset page
   res.redirect('/urls');
 }); 
 
