@@ -51,6 +51,7 @@ app.get('/urls', (req, res) => {
 });
 
 app.get('/urls/new', (req, res) => {
+  console.log(54)
   res.render('urls_new');
 });
 
@@ -70,7 +71,7 @@ app.post('/urls', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log('/login', req.body); //test
+  console.log(74, req.body); //test
   res.cookie('username', req.body.username); // set cookie name and value
   res.redirect('/urls');
 }); 
