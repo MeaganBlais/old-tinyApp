@@ -1,9 +1,18 @@
-<header>Welcome! <%= username %></header>
+<% if( typeof(username) === 'undefined' ) { %>
+<header>Welcome!</header>
 
-
-<form action="/login" method="POST" style="margin:150px;">
-      
+   <form action="/login" method="POST" style="margin:150px;">
       <label for="username">Enter a username:</label>
       <input id="username" type="text" name="username" placeholder="name" style="width: 300px">
       <input type="submit" value="Submit">
     </form>
+
+<% } else { %>
+    <header>Welcome! <%= username %></header>
+
+    <form action="/logout" method="POST" style="margin:150px;">
+      <label for="logout"></label>
+      <input type="submit" value="logout">
+    </form>
+
+<% } %>
